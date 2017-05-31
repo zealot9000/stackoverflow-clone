@@ -1,0 +1,18 @@
+h1 = @question.title
+
+b =@question.body
+
+p = link_to 'Delete question', @question, method: :delete
+
+b answers:
+- @question.answers.each do |answer|
+  = answer.body
+
+  = link_to 'Delete answer', answer, method: :delete
+
+= form_for([@question, @question.answers.build]) do |f|
+  = f.label :answer
+  = f.text_area :body
+  = f.submit 'Add new answer'
+
+= link_to 'Back', questions_path

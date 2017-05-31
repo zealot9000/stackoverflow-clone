@@ -20,7 +20,7 @@ class QuestionsController < ApplicationController
 
   def create
     @question = Question.new(question_params)
-
+    @question.user_id = current_user.id
     if @question.save
       flash[:notice] = 'Your question successfully created.'
       redirect_to @question
@@ -38,8 +38,13 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question.destroy
-    redirect_to questions_path
+    if current_user.author?(@question)
+      @question.destroy
+      redirect_to questions_path
+    else
+      flash[:alert] = 'No rights to delete'
+      render :show
+    end
   end
 
   private
