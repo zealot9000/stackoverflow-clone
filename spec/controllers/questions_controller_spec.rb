@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'pry'
 
 RSpec.describe QuestionsController, type: :controller do
   let(:question) { create(:question) }
@@ -129,9 +130,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    sign_in_user
-
-    before { question }
+    before { sign_in question.user }
 
     it 'deletes question' do
       expect { delete :destroy, id: question }.to change(Question, :count).by(-1)
