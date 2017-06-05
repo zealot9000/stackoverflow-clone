@@ -9,13 +9,7 @@ feature "Create question", %{
   given(:user) { create(:user) }
 
   scenario 'Authenticated user creates quistion' do
-    # User.create!(email: 'user@test.com', password: '12345678')
-    # выносим в модуль
     sign_in(user)
-    # visit new_user_session_path # или '/sign_in'
-    # fill_in 'Email', with: user.email # 'user@test.com'
-    # fill_in 'Password', with: user.password # '12345678'
-    # click_on 'Log in'
 
     visit questions_path
     click_on 'Ask question'
