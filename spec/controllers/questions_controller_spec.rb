@@ -64,7 +64,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
-    sign_in_user
+    before { sign_in question.user }
 
     context 'with valid attributes' do
       it 'saves the new quiestion in the database' do
@@ -130,15 +130,36 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    before { sign_in question.user }
+    context 'Authenticated user' do
+      before { sign_in question.user }
 
-    it 'deletes question' do
-      expect { delete :destroy, id: question }.to change(Question, :count).by(-1)
-    end
+      context 'User is author' do
+        it 'deletes question' do
+          expect { delete :destroy, id: question }.to change(Question, :count).by(-1)
+        end
 
-    it 'redirect to index view' do
-      delete :destroy, id: question
-      expect(response).to redirect_to questions_path
+        it 'redirect to index view' do
+          delete :destroy, id: question
+          expect(response).to redirect_to questions_path
+        end
+      end
+
+      context 'User is not author' do
+        let(:another_user) { create(:user) }
+        let(:another_question) { create(:question, user: another_user) }
+        render_views
+
+        it 'delete question' do
+          another_question
+          expect { delete :destroy, id: another_question }.to_not change(Question, :count)
+        end
+
+        it 're-renders question view' do
+          delete :destroy, id: another_question
+          expect(response).to render_template :show
+          expect(response.body).to match another_question.title
+        end
+      end
     end
   end
 end

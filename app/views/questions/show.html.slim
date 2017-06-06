@@ -8,13 +8,15 @@ b = @question.body
 b answers:
 - @question.answers.each do |answer|
   = answer.body
-
-  -if user_signed_in? && current_user.author?(answer)
+  - if user_signed_in? && current_user.author?(answer)
     = link_to 'Delete answer', answer, method: :delete
 
-= form_for([@question, @question.answers.build]) do |f|
-  = f.label :answer
-  = f.text_area :body
-  = f.submit 'Add new answer'
+- if user_signed_in?
+  = form_for([@question, @question.answers.build]) do |f|
+    - if @answer
+      = render 'common/errors', resource: @answer
+    = f.label :body
+    = f.text_area :body
+    = f.submit 'Add new answer'
 
 = link_to 'Back', questions_path

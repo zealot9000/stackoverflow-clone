@@ -40,7 +40,7 @@ class QuestionsController < ApplicationController
   def destroy
     if current_user.author?(@question)
       @question.destroy
-      redirect_to questions_path
+      redirect_to questions_path, notice: 'Question was successfully deleted.'
     else
       flash[:alert] = 'No rights to delete'
       render :show
