@@ -3,18 +3,7 @@ require 'pry'
 
 RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
-
-  describe 'GET #new' do
-    before { get :new, {question_id: question.id} }
-
-    it 'Assigns a new Answer to @answer' do
-      expect(assigns(:answer)).to be_a_new(Answer)
-    end
-
-    it 'render new view' do
-      expect(response).to render_template :new
-    end
-  end
+  let(:answer) { create(:answer, question: question) }
 
   describe 'POST #create' do
     sign_in_user
@@ -37,7 +26,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 're-renders new view' do
         post :create, { question_id: question, answer: attributes_for(:invalid_answer) }
-        expect(response).to render_template :new
+        expect(response).to render_template 'questions/show'
       end
     end
   end
