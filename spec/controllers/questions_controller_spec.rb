@@ -64,7 +64,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
-    before { sign_in question.user }
+    sign_in_user
 
     context 'with valid attributes' do
       it 'saves the new quiestion in the database' do
@@ -77,6 +77,11 @@ RSpec.describe QuestionsController, type: :controller do
       it 'redirect to show' do
         post :create, question: attributes_for(:question)
         expect(response).to redirect_to question_path(assigns(:question))# (Question.last)
+      end
+
+      it 'question belongs to the user' do
+        post :create, question: attributes_for(:question)
+        expect(assigns(:question).user_id).to eq @user.id
       end
     end
 
