@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'pry'
 
 RSpec.describe QuestionsController, type: :controller do
   let(:question) { create(:question) }
@@ -33,6 +34,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #new' do
+    sign_in_user
+
     before { get :new }
 
     it 'assigns a new Question to @question' do
@@ -45,6 +48,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #edit' do
+    sign_in_user
+
     # let(:question) { create(:question)}
 
     before { get :edit, id: question }
@@ -59,6 +64,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
+    sign_in_user
+
     context 'with valid attributes' do
       it 'saves the new quiestion in the database' do
         # old_count = Question.count
@@ -70,6 +77,11 @@ RSpec.describe QuestionsController, type: :controller do
       it 'redirect to show' do
         post :create, question: attributes_for(:question)
         expect(response).to redirect_to question_path(assigns(:question))# (Question.last)
+      end
+
+      it 'question belongs to the user' do
+        post :create, question: attributes_for(:question)
+        expect(assigns(:question).user_id).to eq @user.id
       end
     end
 
@@ -86,6 +98,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH #update' do
+    sign_in_user
+
     context 'valid attributes' do
       it 'assigns the requested question to @question' do
         patch :update, id: question, question: attributes_for(:question)
@@ -121,15 +135,36 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    before { question }
+    context 'Authenticated user' do
+      before { sign_in question.user }
 
-    it 'deletes question' do
-      expect { delete :destroy, id: question }.to change(Question, :count).by(-1)
-    end
+      context 'User is author' do
+        it 'deletes question' do
+          expect { delete :destroy, id: question }.to change(Question, :count).by(-1)
+        end
 
-    it 'redirect to index view' do
-      delete :destroy, id: question
-      expect(response).to redirect_to questions_path
+        it 'redirect to index view' do
+          delete :destroy, id: question
+          expect(response).to redirect_to questions_path
+        end
+      end
+
+      context 'User is not author' do
+        let(:another_user) { create(:user) }
+        let(:another_question) { create(:question, user: another_user) }
+        render_views
+
+        it 'delete question' do
+          another_question
+          expect { delete :destroy, id: another_question }.to_not change(Question, :count)
+        end
+
+        it 're-renders question view' do
+          delete :destroy, id: another_question
+          expect(response).to render_template :show
+          expect(response.body).to match another_question.title
+        end
+      end
     end
   end
 end

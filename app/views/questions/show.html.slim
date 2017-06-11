@@ -1,0 +1,23 @@
+h1 = @question.title
+
+b = @question.body
+
+- if user_signed_in? && current_user.author?(@question)
+  p = link_to 'Delete question', @question, method: :delete
+
+b answers:
+- @question.answers.each do |answer|
+  - if answer.persisted?
+    = answer.body
+    - if user_signed_in? && current_user.author?(answer)
+      = link_to 'Delete answer', answer, method: :delete
+
+- if user_signed_in?
+  = form_for([@question, @question.answers.build]) do |f|
+    - if @answer
+      = render 'common/errors', resource: @answer
+    = f.label :body
+    = f.text_area :body
+    = f.submit 'Add new answer'
+
+= link_to 'Back', questions_path

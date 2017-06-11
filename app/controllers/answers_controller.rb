@@ -1,17 +1,26 @@
 class AnswersController < ApplicationController
-  before_action :set_question, only: [:new, :create]
-
-  def new
-    @answer = @question.answers.new
-  end
+  before_action :authenticate_user!, only: [:create, :destroy]
+  before_action :set_question, only: [:create]
 
   def create
     @answer = @question.answers.new(answer_params)
-
+    @answer.user = current_user
     if @answer.save
-      redirect_to @question
+      redirect_to @question, notice: 'Your answer successfully created.'
     else
-      render :new
+      render 'questions/show'
+    end
+  end
+
+  def destroy
+    @answer = Answer.find(params[:id])
+    if current_user.author?(@answer)
+      @answer.destroy
+      redirect_to @answer.question, notice: 'Answer was successfully destroyed.'
+    else
+      flash[:alert] = 'No rights to delete'
+      @question = @answer.question
+      render 'questions/show'
     end
   end
 
