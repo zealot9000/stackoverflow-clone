@@ -52,11 +52,10 @@ RSpec.describe AnswersController, type: :controller do
 
       context 'User is not the author' do
         let(:another_user) { create(:user) }
-        let(:another_answer) { create(:answer, user: another_user, question: question) }
+        let!(:another_answer) { create(:answer, user: another_user, question: question) }
         render_views
 
         it 'try delete answer' do
-          another_answer
           expect { delete :destroy, id: another_answer }.to_not change(Answer, :count)
         end
 
