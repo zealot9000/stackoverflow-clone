@@ -1,0 +1,6 @@
+b answers:
+- @question.answers.each do |answer|
+  - if answer.persisted?
+    = answer.body
+
+    = button_to 'Delete answer', answer, method: :delete
