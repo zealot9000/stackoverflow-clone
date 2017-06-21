@@ -9,28 +9,32 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'with valid attributes' do
       it 'saves the new answer in the database' do
-        expect { post :create, question_id: question, answer: attributes_for(:answer) }.to change(question.answers, :count).by(1)
+        expect do
+          post :create, { question_id: question, answer: attributes_for(:answer), format: :js }
+        end.to change(question.answers, :count).by(1)
       end
 
-      it 'redirect to show question view' do
-        post :create, { question_id: question, answer: attributes_for(:answer) }
-        expect(response).to redirect_to question
+      it 'render new answer' do
+        post :create, { question_id: question, answer: attributes_for(:answer), format: :js }
+        expect(response).to render_template :create
       end
 
       it 'answer belongs to the user' do
-        post :create, question_id: question, answer: attributes_for(:answer)
+        post :create, question_id: question, answer: attributes_for(:answer), format: :js
         expect(assigns(:answer).user_id).to eq @user.id
       end
     end
 
     context 'with invalid attributes' do
       it 'does not save the answer' do
-        post :create, { question_id: question, answer: attributes_for(:invalid_answer) }
+        expect do
+          post :create, { question_id: question, answer: attributes_for(:invalid_answer), format: :js }
+        end.to_not change(Answer, :count)
       end
 
-      it 're-renders new view' do
-        post :create, { question_id: question, answer: attributes_for(:invalid_answer) }
-        expect(response).to render_template 'questions/show'
+      it 'render new answer' do
+        post :create, { question_id: question, answer: attributes_for(:invalid_answer), format: :js }
+        expect(response).to render_template :create
       end
     end
   end
@@ -60,8 +64,8 @@ RSpec.describe AnswersController, type: :controller do
         end
 
         it 're-renders question view' do
-          delete :destroy, id: another_answer
-          expect(response).to render_template 'questions/show'
+          delete :destroy, id: answer
+          expect(response).to redirect_to question_path(question)
         end
       end
     end

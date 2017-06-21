@@ -1,6 +1,5 @@
 h1 = @question.title
-
-p = @question.body
+p  = @question.body
 
 - if user_signed_in? && current_user.author?(@question)
   p = button_to 'Delete question', @question, method: :delete

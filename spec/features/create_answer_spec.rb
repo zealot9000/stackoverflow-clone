@@ -16,22 +16,23 @@ feature 'Create answer', %q{
     fill_in 'Body', with: 'My answer text'
     click_on 'Add new answer'
 
-    expect(page).to have_content 'Your answer successfully created.'
-    expect(page).to have_content 'My answer text'
+    within '.answers' do
+      expect(page).to have_content 'My answer text'
+    end
     expect(current_path).to eq question_path(question)
   end
 
-  scenario 'Authenticated user create answer with invalid attributes' do
+  scenario 'Authenticated user create answer with invalid attributes', js: true do
     sign_in(user)
 
     visit question_path(question)
-    fill_in 'Body', with: ''
     click_on 'Add new answer'
-
-    expect(page).to have_content "Body can't be blank"
+#    save_and_open_page
+#    sleep(5)
+    expect(page).to have_content 'Body can\'t be blank'
   end
 
-  scenario 'Non-authenticated user try to creates question' do
+  scenario 'Non-authenticated user try to creates question', js: true do
     visit questions_path
     click_on 'Ask question'
 
