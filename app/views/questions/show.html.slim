@@ -4,8 +4,10 @@ p  = @question.body
 - if user_signed_in? && current_user.author?(@question)
   p = button_to 'Delete question', @question, method: :delete
 
+= render @question.answers
+
 .answers
-  = render @question.answers
+
 
 - if user_signed_in?
   = form_for [@question, @question.answers.build], remote: true do |f|
