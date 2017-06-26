@@ -1,19 +1,16 @@
 h1 = @question.title
-
-b = @question.body
+p  = @question.body
 
 - if user_signed_in? && current_user.author?(@question)
-  p = link_to 'Delete question', @question, method: :delete
+  p = button_to 'Delete question', @question, method: :delete
 
-b answers:
-- @question.answers.each do |answer|
-  - if answer.persisted?
-    = answer.body
-    - if user_signed_in? && current_user.author?(answer)
-      = link_to 'Delete answer', answer, method: :delete
+= render @question.answers
+
+.answers
+
 
 - if user_signed_in?
-  = form_for([@question, @question.answers.build]) do |f|
+  = form_for [@question, @question.answers.build], remote: true do |f|
     - if @answer
       = render 'common/errors', resource: @answer
     = f.label :body
