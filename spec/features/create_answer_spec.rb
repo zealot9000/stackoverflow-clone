@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative 'feature_helper'
 
 feature 'Create answer', %q{
   In order to offer an answer
@@ -38,5 +38,4 @@ feature 'Create answer', %q{
 
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
-
 end

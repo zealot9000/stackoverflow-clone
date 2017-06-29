@@ -1,5 +1,11 @@
-p
+.answer id="#{answer.id}"
   = answer.body
   - if current_user && current_user.author?(answer)
-    br
+  br
     = link_to 'Delete answer', answer, method: :delete
+  br
+    = link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
+  br
+    = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}"} do |f|
+      = f.text_area :body, id: "body-answer-#{answer.id}"
+      = f.submit 'Save'
