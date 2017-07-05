@@ -4,7 +4,11 @@ root to: "questions#index"
   devise_for :users
 
   resources :questions do
-    resources :answers, shallow: true
+    resources :answers, shallow: true do
+      member do
+        patch :mark_best
+      end
+    end
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

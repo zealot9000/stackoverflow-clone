@@ -1,5 +1,6 @@
 h1 questions:
 - @questions.each do |question|
+  .question id="#{question.id}"
   h3 = link_to question.title, question
 
 = link_to 'Ask question', new_question_path

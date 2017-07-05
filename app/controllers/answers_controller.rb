@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :load_question, only: [:create]
-  before_action :load_answer, only: [:destroy, :show, :update]
+  before_action :load_answer, only: [:destroy, :show, :update, :mark_best]
 
   def create
     @answer = @question.answers.new(answer_params)
@@ -10,19 +10,19 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    @answer = Answer.find(params[:id])
-    if current_user.author?(@answer)
-      @answer.destroy
-      flash[:notice] = 'Your answer successfully deleted.'
-    else
-      flash[:notice] = 'You are not the author.'
+    @answer.destroy if current_user.author?(@answer)
+    respond_to do |format|
+      format.js
     end
-    redirect_to @answer.question
   end
 
   def update
     @answer.update(answer_params)
     @question = @answer.question
+  end
+
+  def mark_best
+    @answer.mark_best
   end
 
   private

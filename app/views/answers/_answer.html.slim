@@ -1,10 +1,13 @@
 .answer id="#{answer.id}"
+  - if answer.best?
+    b Best answer
+    .best-answer
+
   = answer.body
   - if current_user && current_user.author?(answer)
-  br
-    = link_to 'Delete answer', answer, method: :delete
-  br
-    = link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
+    = link_to 'Delete answer', answer, method: :delete, remote: true
+    = link_to 'Edit answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
+    = link_to 'Mark best', mark_best_answer_path(answer), method: :patch, remote: true
   br
     = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}"} do |f|
       = f.text_area :body, id: "body-answer-#{answer.id}"
