@@ -1,5 +1,5 @@
 <% if @answer.destroyed? %>
-  $('#<%= @answer.id %>.answer').remove();
+  $('.answer-<%= @answer.id %>').remove();
   $('.notice').html('Answer was successfully destroyed.');
 <% else %>
   $('.alert').html('You can not remove an answer!');

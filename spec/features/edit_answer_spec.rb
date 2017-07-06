@@ -22,15 +22,9 @@ feature 'Answer editing', %q{
       sign_in user
       visit question_path(question)
     end
-    scenario 'Sees link to edit' do
-      within '.answers' do
-        expect(page).to have_link 'Edit'
-      end
-    end
-
 
     scenario "Try to edit other user's question", js: true do
-      click_on 'Edit'
+      click_on 'Edit question'
       fill_in 'Answer', with: 'edited answer'
       click_on 'Save'
 

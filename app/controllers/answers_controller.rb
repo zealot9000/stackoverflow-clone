@@ -11,18 +11,15 @@ class AnswersController < ApplicationController
 
   def destroy
     @answer.destroy if current_user.author?(@answer)
-    respond_to do |format|
-      format.js
-    end
   end
 
   def update
-    @answer.update(answer_params)
+    @answer.update(answer_params) if current_user.author?(@answer)
     @question = @answer.question
   end
 
   def mark_best
-    @answer.mark_best
+    @answer.mark_best if current_user.author?(@answer.question)
   end
 
   private
