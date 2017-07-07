@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative 'feature_helper'
 
 feature 'Delete answer', %q{
   In order to remove the incorrect answer
