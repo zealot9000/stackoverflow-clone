@@ -7,7 +7,8 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    # apply load_question
+    @answer = @question.answers.build
+    @answer.attachments.build
   end
 
   def new

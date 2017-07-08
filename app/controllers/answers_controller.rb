@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :load_question, only: [:create]
-  before_action :load_answer, only: [:destroy, :show, :update, :mark_best]
+  before_action :load_answer, only: [:destroy, :update, :mark_best]
 
   def create
     @answer = @question.answers.new(answer_params)
@@ -25,7 +25,7 @@ class AnswersController < ApplicationController
   private
 
   def answer_params
-    params.require(:answer).permit(:body)
+    params.require(:answer).permit(:body, attachments_attributes: [:file, :id, :_destroy])
   end
 
   def load_question
