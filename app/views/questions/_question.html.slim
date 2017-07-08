@@ -4,7 +4,7 @@
   p Attachmnets:
   ul
     - question.attachments.each do |attach|
-      li = attach.file.file.filename
+      li = link_to attach.file.identifier, attach.file.url
 
   - if user_signed_in? && current_user.author?(question)
     = button_to 'Delete question', question, method: :delete
