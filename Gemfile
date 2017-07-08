@@ -43,6 +43,7 @@ group :development, :test do
   gem 'capybara-webkit'
   gem 'database_cleaner'
   gem 'launchy'
+  gem 'carrierwave'
 end
 
 group :test do
