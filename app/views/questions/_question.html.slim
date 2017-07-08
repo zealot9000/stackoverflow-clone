@@ -1,6 +1,10 @@
 .question id="#{question.id}"
   h1 = question.title
   p  = question.body
+  p Attachmnets:
+  ul
+    - question.attachments.each do |attach|
+      li = attach.file.file.filename
 
   - if user_signed_in? && current_user.author?(question)
     = button_to 'Delete question', question, method: :delete
