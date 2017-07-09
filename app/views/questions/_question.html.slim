@@ -1,7 +1,7 @@
 .question id="#{question.id}"
   h1 = question.title
   p  = question.body
-  p Attachmnets:
+  p Attachments:
   ul
     - question.attachments.each do |attach|
       li = link_to attach.file.identifier, attach.file.url

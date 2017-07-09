@@ -44,6 +44,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'launchy'
   gem 'carrierwave'
+  gem "cocoon"
 end
 
 group :test do
