@@ -6,6 +6,12 @@ div class=["answer", "answer-#{answer.id}"]
     = link_to 'Mark best', mark_best_answer_path(answer), method: :patch, remote: true
 
   = answer.body
+  - if answer.persisted? && answer.attachments.present?
+    = render 'attachments/attachments', entity: answer
+  / - if answer.persisted? && answer.attachments.present?
+  /   - answer.attachments.each do |attach|
+  /     li = link_to attach.file.identifier, attach.file.url
+
   - if current_user && current_user.author?(answer)
     = link_to 'Delete answer', answer, method: :delete, remote: true
     = link_to 'Edit answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
