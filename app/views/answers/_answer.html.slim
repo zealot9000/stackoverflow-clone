@@ -2,7 +2,7 @@ div class=["answer", "answer-#{answer.id}"]
   - if answer.best?
     b Best answer
     .best-answer
-  - elsif user_signed_in? && current_user.author?(answer.question)
+  - elsif user_signed_in? && current_user.author?(answer.question) && answer.persisted?
     = link_to 'Mark best', mark_best_answer_path(answer), method: :patch, remote: true
 
   = answer.body
@@ -11,6 +11,7 @@ div class=["answer", "answer-#{answer.id}"]
     = link_to 'Edit answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
 
   br
-    = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}"} do |f|
-      = f.text_area :body, id: "body-answer-#{answer.id}"
-      = f.submit 'Save'
+    - if answer.persisted?
+      = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}"} do |f|
+        = f.text_area :body, id: "body-answer-#{answer.id}"
+        = f.submit 'Save'

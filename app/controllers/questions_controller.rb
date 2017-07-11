@@ -2,16 +2,18 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :load_question, only: [:show, :edit, :update, :destroy]
 
+
   def index
     @questions = Question.all
   end
 
   def show
-    @answer = Answer.new
+    @answer = @question.answers.new
+    @answer.attachments.build
   end
 
   def new
-    @question = Question.new
+    @question = current_user.questions.new
     @question.attachments.build
   end
 
@@ -20,8 +22,7 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    @question = Question.new(question_params)
-    @question.user_id = current_user.id
+    @question = current_user.questions.new(question_params)
     if @question.save
       flash[:notice] = 'Your question successfully created.'
       redirect_to @question

@@ -6,11 +6,10 @@
 
 - if user_signed_in?
   = form_for [@question, @answer], remote: true do |f|
-    - if @answer
-      = render 'common/errors', resource: @answer
+    = render 'common/errors', resource: @answer
     .answer-errors
     = f.text_area :body
-    p Attachments:
+    p Attachments for new answer:
     p
       = f.fields_for :attachments do |a|
         = a.label :file
