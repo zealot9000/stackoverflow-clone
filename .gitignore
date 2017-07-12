@@ -14,3 +14,6 @@
 /log/*
 !/log/.keep
 /tmp
+
+# Ignore uploaded files
+/uploads

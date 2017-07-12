@@ -5,11 +5,11 @@
   = render @question.answers
 
 - if user_signed_in?
-  = form_for [@question, @question.answers.build], remote: true do |f|
-    - if @answer
-      = render 'common/errors', resource: @answer
+  = form_for [@question, @answer], remote: true do |f|
+    = render 'common/errors', resource: @answer
     .answer-errors
     = f.text_area :body
-    = f.submit 'Add new answer'
+    = render 'attachments/form', f: f
+    p = f.submit 'Add new answer'
 
 = link_to 'Back', questions_path
