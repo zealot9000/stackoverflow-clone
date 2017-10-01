@@ -1,0 +1,12 @@
+b.rating= entity.rating
+| &nbsp
+- if user_signed_in? && ! current_user.author?(entity)
+  div class= delete_vote_class(entity)
+    = link_to 'Delete vote', delete_vote_path(entity),
+            method: :delete, remote: true, data: { type: :json }
+  div class= up_down_vote_class(entity)
+    = link_to 'Up', votes_path(votable_id: entity.id, votable_type: entity.class.name, up: true),
+            method: :post, remote: true, data: { type: :json }
+    | &nbsp
+    = link_to 'Down', votes_path(votable_id: entity.id, votable_type: entity.class.name, up: false),
+            method: :post, remote: true, data: { type: :json }

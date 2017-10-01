@@ -3,6 +3,8 @@
 
 .answers
   = render @question.answers
+   div class="answer-votes-#{answer.id}"
+    = render 'questions/vote', entity: answer
 
 - if user_signed_in?
   = form_for [@question, @answer], remote: true do |f|
