@@ -6,7 +6,7 @@ class Answer < ActiveRecord::Base
 
   has_many :attachments, as: :attachable, dependent: :destroy
 
-  validates :body, presence: true, length: { minimum: 10 }
+  validates :body, presence: true, length: { minimum: 3 }
 
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
 

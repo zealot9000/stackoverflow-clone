@@ -6,6 +6,8 @@ div class="answer-#{answer.id}"
     = link_to 'Mark best', mark_best_answer_path(answer), method: :patch, remote: true
   p
     = answer.body
+
+- unless answer.id.nil?
   div class="answer-votes-#{answer.id}"
     = render 'questions/vote', entity: answer
 
