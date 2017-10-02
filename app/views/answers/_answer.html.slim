@@ -1,11 +1,16 @@
-div class=["answer", "answer-#{answer.id}"]
+div class="answer-#{answer.id}"
   - if answer.best?
     b Best answer
     .best-answer
   - elsif user_signed_in? && current_user.author?(answer.question) && answer.persisted?
     = link_to 'Mark best', mark_best_answer_path(answer), method: :patch, remote: true
+  p
+    = answer.body
 
-  = answer.body
+- unless answer.id.nil?
+  div class="answer-votes-#{answer.id}"
+    = render 'questions/vote', entity: answer
+
   - if answer.persisted? && answer.attachments.present?
     = render 'attachments/attachments', entity: answer
   / - if answer.persisted? && answer.attachments.present?
@@ -13,8 +18,10 @@ div class=["answer", "answer-#{answer.id}"]
   /     li = link_to attach.file.identifier, attach.file.url
 
   - if current_user && current_user.author?(answer)
-    = link_to 'Delete answer', answer, method: :delete, remote: true
-    = link_to 'Edit answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
+    p
+      = link_to 'Delete answer', answer, method: :delete, remote: true
+    p
+      = link_to 'Edit answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
 
   br
     - if answer.persisted?
