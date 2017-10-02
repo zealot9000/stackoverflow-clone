@@ -9,11 +9,13 @@ class Vote < ActiveRecord::Base
   validates :rating, inclusion: { :in => [1, -1] }
   validate :author_validation
 
-  def author_validation
-    errors.add(:user, "User is an author of object.") if user.author?(self.votable)
-  end
-
   def self.types
     TYPES
+  end
+
+  private
+
+  def author_validation
+    errors.add(:user, "User is an author of object.") if user.author?(self.votable)
   end
 end
