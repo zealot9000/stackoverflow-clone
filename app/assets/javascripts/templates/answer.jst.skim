@@ -1,0 +1,41 @@
+- unless gon.user_id == @answer.user_id
+  div class="answer-#{@answer.id}"
+    p
+      = @answer.body
+    div class="answer-votes-#{@answer.id}"
+      b.rating 0
+      | &nbsp
+      - if gon.user_id
+        div class= "answer-del-#{@answer.id} hidden"
+          a data-type="json" data-remote="true" rel="nofollow" data-method="delete" href="#" Delete vote
+        div class= "answer-up-down-#{@answer.id}"
+          a data-type="json" data-remote="true" rel="nofollow" data-method="post" href="/votes?up=true&votable_id=#{@answer.id}&votable_type=Answer" Up
+          | &nbsp
+          a data-type="json" data-remote="true" rel="nofollow" data-method="post" href="/votes?up=false&votable_id=#{@answer.id}&votable_type=Answer" Down
+        / div class= delete_vote_class(entity)
+        /   = link_to 'Delete vote', delete_vote_path(entity), method: :delete, remote: true, data: { type: :json }
+        / div class= up_down_vote_class(entity)
+        /   = link_to 'Up', votes_path(votable_id: entity.id, votable_type: entity.class.name, up: true), method: :post, remote: true, data: { type: :json }
+        / | &nbsp
+        /   = link_to 'Down', votes_path(votable_id: entity.id, votable_type: entity.class.name, up: false),method: :post, remote: true, data: { type: :json }
+      / p Attachments:
+      /   ul
+      /     - entity.attachments.each do |a|
+      /       li class="attachment-#{a.id}"
+      /         = link_to a.file.identifier, a.file.url
+      /         - if user_signed_in? && current_user.author?(a.attachable)
+      /             | &nbsp
+      /       = link_to 'Delete file', a, method: :delete, remote: true
+      .comments
+      - if gon.user_id
+        form class="new_comment" id="new_comment" action="/comments.json" accept-charset="UTF-8" data-remote="true" method="post"
+          input name="utf8" type="hidden" value="✓"
+          p
+            label for="comment_body" Comment
+          p
+            textarea name="comment[body]" id="comment_body"
+          input value="#{@answer.id}" type="hidden" name="comment[commentable_id]" id="comment_commentable_id"
+          input value="Answer" type="hidden" name="comment[commentable_type]" id="comment_commentable_type"
+          p
+            input type="submit" name="commit" value="Create comment" data-disable-with="Create comment"
+      hr

@@ -12,7 +12,12 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require cocoon
 //= require jquery.remotipart
+//= require action_cable
+//= require cocoon
 //= require turbolinks
+//require skim
 //= require_tree .
+
+var App = App || {};
+App.cable = ActionCable.createConsumer();
