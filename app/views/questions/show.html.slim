@@ -1,7 +1,7 @@
 .question
   = render @question
 
-.answers
+.answers *{'data-question-id'=>@question.id}
   = render @question.answers
    div class="answer-votes-#{answer.id}"
     = render 'questions/vote', entity: answer

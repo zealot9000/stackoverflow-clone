@@ -31,7 +31,7 @@ class AnswersController < ApplicationController
     attachments = []
     @answer.attachments.each { |a| attachments << {id: a.id, identifier: a.file.identifier, url: a.file.url} }
     ActionCable.server.broadcast(
-      'answers',
+      "question_#{@question.id}_answers",
       answer: @answer,
       attachments: @attachments,
       author_question: @question.user.id

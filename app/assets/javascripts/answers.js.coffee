@@ -7,11 +7,16 @@ answer_edit = ->
 
 $(document).on('page:load', answer_edit);
 
-answer_channel = ->
-  App.cable.subscriptions.create('AnswersChannel', {
-    received: (data) ->
-      $('.answers').append(JST['templates/answer'](data))
-  });
+answers_channel = ->
+  question_id = $('.answers').data('question-id')
+  App.cable.subscriptions.create {
+    channel: "AnswersChannel"
+    question_id: question_id
+  },
 
-$(document).on('page:load', answer_channel);
-$(document).ready(answer_channel);
+    received: (data) ->
+      unless gon.user_id == data.answer.user_id
+        $('.answers').append(JST['templates/answer'](data))
+
+$(document).on('page:load', answers_channel);
+$(document).ready(answers_channel);
