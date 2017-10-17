@@ -16,7 +16,7 @@ comment_channel = ->
 
     received: (data) ->
       if gon.user_id != data.author_comment
-        $(data.css_path + ' .comments').append(JST['templates/comment'](data))
+        $(data.css_path + '.comments').append(JST['templates/comment'](data))
 
 $(document).on('page:load', comment_channel);
 $(document).ready(comment_channel);

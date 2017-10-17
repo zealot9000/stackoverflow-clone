@@ -4,7 +4,9 @@ div class="answer-#{answer.id}"
     .best-answer
   - elsif user_signed_in? && current_user.author?(answer.question) && answer.persisted?
     = link_to 'Mark best', mark_best_answer_path(answer), method: :patch, remote: true
-    = render 'questions/comments', entity: answer
+
+  = render 'questions/comments', entity: answer
+
   p
     = answer.body
 
@@ -14,10 +16,6 @@ div class="answer-#{answer.id}"
 
   - if answer.persisted? && answer.attachments.present?
     = render 'attachments/attachments', entity: answer
-
-  / - if answer.persisted? && answer.attachments.present?
-  /   - answer.attachments.each do |attach|
-  /     li = link_to attach.file.identifier, attach.file.url
 
   - if current_user && current_user.author?(answer)
     p
