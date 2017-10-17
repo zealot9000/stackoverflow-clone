@@ -36,7 +36,7 @@ class CommentsController < ApplicationController
   def publish_comment
     return if @comment.nil? || @comment.errors.any?
     ActionCable.server.broadcast(
-      'comments',
+      "question_#{@comment.commentable_id}_answers",
       css_path: selector,
       body: @comment.body,
       author_comment: @comment.user.id
