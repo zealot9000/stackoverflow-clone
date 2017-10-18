@@ -1,7 +1,9 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :load_question, only: [:create]
   before_action :load_answer, only: [:destroy, :update, :mark_best]
+
+  after_action :publish_answer, only: [:create]
 
   def create
     @answer = @question.answers.new(answer_params)
@@ -24,8 +26,20 @@ class AnswersController < ApplicationController
 
   private
 
+  def publish_answer
+    return if @answer.errors.any?
+    attachments = []
+    @answer.attachments.each { |a| attachments << {id: a.id, identifier: a.file.identifier, url: a.file.url} }
+    ActionCable.server.broadcast(
+      "question_#{@question.id}_answers",
+      answer: @answer,
+      attachments: @attachments,
+      author_question: @question.user.id
+    )
+  end
+
   def answer_params
-    params.require(:answer).permit(:body, attachments_attributes: [:file, :id, :_destroy])
+    params.require(:answer).permit(:body, attachments_attributes: [:file, :id, :_destroy]).merge(user_id: current_user.id)
   end
 
   def load_question

@@ -13,4 +13,7 @@ root to: "questions#index"
 
   resources :attachments, only: [:destroy]
   resources :votes, only: [:create, :destroy]
+  resources :comments, only: [:create]
+
+  mount ActionCable.server => '/cable'
 end
