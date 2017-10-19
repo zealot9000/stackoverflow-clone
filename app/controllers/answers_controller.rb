@@ -5,10 +5,10 @@ class AnswersController < ApplicationController
 
   after_action :publish_answer, only: [:create]
 
+  respond_to :js
+
   def create
-    @answer = @question.answers.new(answer_params)
-    @answer.user = current_user
-    @answer.save
+    respond_with(@answer = @question.answers.create(answer_params))
   end
 
   def destroy
@@ -17,7 +17,7 @@ class AnswersController < ApplicationController
 
   def update
     @answer.update(answer_params) if current_user.author?(@answer)
-    @question = @answer.question
+    respond_with(@answer)
   end
 
   def mark_best

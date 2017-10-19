@@ -1,21 +1,23 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :load_question, only: [:show, :edit, :update, :destroy]
+  before_action :build_answer, only: [:show]
 
   after_action :publish_question, only: [:create]
 
+  respond_to :html
+
   def index
-    @questions = Question.all
+    respond_with(@questions = Question.all)
   end
 
   def show
-    gon.question_id = @question.id
-    @answer = @question.answers.new
+    respond_with @question
     @answer.attachments.build
   end
 
   def new
-    @question = current_user.questions.new
+    respond_with(@question = current_user.questions.new)
     @question.attachments.build
   end
 
@@ -24,13 +26,7 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    @question = current_user.questions.new(question_params)
-    if @question.save
-      flash[:notice] = 'Your question successfully created.'
-      redirect_to @question
-    else
-      render :new
-    end
+    respond_with(@question = current_user.questions.create(question_params))
   end
 
   def update
@@ -39,8 +35,7 @@ class QuestionsController < ApplicationController
 
   def destroy
     if current_user.author?(@question)
-      @question.destroy
-      redirect_to questions_path, notice: 'Question was successfully deleted.'
+      respond_with(@question.destroy)
     else
       flash[:alert] = 'No rights to delete'
       render :show
@@ -48,6 +43,11 @@ class QuestionsController < ApplicationController
   end
 
   private
+
+  def build_answer
+    gon.question_id = @question.id
+    @answer = @question.answers.new
+  end
 
   def publish_question
     return if @question.errors.any?

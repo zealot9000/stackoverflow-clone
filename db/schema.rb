@@ -27,11 +27,11 @@ ActiveRecord::Schema.define(version: 20171015090345) do
 
   create_table "attachments", force: :cascade do |t|
     t.string   "file"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-    t.integer  "attachable_id"
-    t.string   "attachable_type"
-    t.index ["attachable_id", "attachable_type"], name: "index_attachments_on_attachable_id_and_attachable_type", using: :btree
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+    t.integer  "attachmentable_id"
+    t.string   "attachmentable_type"
+    t.index ["attachmentable_id", "attachmentable_type"], name: "index_attachments_on_attachmentable_id_and_attachmentable_type", using: :btree
   end
 
   create_table "comments", force: :cascade do |t|
@@ -73,11 +73,12 @@ ActiveRecord::Schema.define(version: 20171015090345) do
   create_table "votes", force: :cascade do |t|
     t.integer  "rating"
     t.integer  "user_id"
-    t.integer  "votable_id"
-    t.string   "votable_type"
+    t.integer  "votable_id",   null: false
+    t.string   "votable_type", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.index ["votable_id", "votable_type"], name: "index_votes_on_votable_id_and_votable_type", using: :btree
+    t.index ["user_id"], name: "index_votes_on_user_id", using: :btree
+    t.index ["votable_id", "votable_type"], name: "index_votes_on_votable_id_and_votable_type", unique: true, using: :btree
   end
 
   add_foreign_key "answers", "questions"
