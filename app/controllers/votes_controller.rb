@@ -1,14 +1,13 @@
 class VotesController < ApplicationController
   before_action :authenticate_user!
 
+  respond_to :json
+
   def create
-    if Vote.types.include?(params[:votable_type])
-      @vote = Vote.new(vote_params)
-      if @vote.save
-        render_success(@vote, :create)
-      else
-        render_error
-      end
+    return render_error unless Vote.types.include?(params[:votable_type])
+    @vote = votable.votes.build(vote_params)
+    if @vote.save
+      render_success(votable, @vote.id, 'create')
     else
       render_error
     end
@@ -41,11 +40,10 @@ class VotesController < ApplicationController
   end
 
   def votable
-    params[:votable_type].constantize.find(params[:votable_id])
+    @votable ||= params[:votable_type].constantize.find(params[:votable_id])
   end
 
   def vote_params
-    # votable = params[:votable_type].constantize.find(params[:votable_id])
-    { user: current_user, rating: params[:up] == 'true' ? 1 : -1, votable: votable }
+    { user: current_user, rating: params[:up] == 'true' ? 1 : -1 }
   end
 end
