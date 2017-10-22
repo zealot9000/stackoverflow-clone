@@ -28,7 +28,10 @@ gem 'puma'
 gem 'skim'
 gem 'gon'
 gem 'responders', '~> 2.0'
-
+gem 'omniauth'
+gem 'omniauth-facebook', '~> 4.0.0'
+gem 'omniauth-twitter'
+gem 'dotenv-rails'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -45,12 +48,14 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'capybara'
   gem 'capybara-webkit'
+  gem 'capybara-email'
   gem 'database_cleaner'
   gem 'launchy'
   gem 'carrierwave'
   gem 'cocoon'
   gem 'remotipart'
   gem 'faker'
+  gem 'letter_opener'
 end
 
 group :test do

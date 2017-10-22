@@ -17,3 +17,5 @@
 
 # Ignore uploaded files
 /uploads
+
+.env
