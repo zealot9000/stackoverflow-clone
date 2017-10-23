@@ -9,16 +9,9 @@ class OmnitokensController < ApplicationController
   def verify_email
     token = Omnitoken.find_by(token: params[:token])
     user = User.find_by(email: token.email)
-    Omnitoken.transaction do
-      if user
-        token.authorization.update(user: user)
-        tokenuser = token.user
-      else
-        token.user.update(email: token.email)
-      end
-      token.destroy
-      tokenuser.destroy if tokenuser
-    end
+
+    verify_token(token, user)
+
     flash[:notice] = 'Your account updated.'
     redirect_to root_path
   end
