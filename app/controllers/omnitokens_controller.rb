@@ -1,9 +1,9 @@
 class OmnitokensController < ApplicationController
 
   def register_email
-    @user = User.find_by(id: session[:user_id])
-    @auth = Authorization.find_by(uid: session[:auth_uid], provider: session[:auth_provider])
-    Omnitoken.create!(user: @user, authorization: @auth, email: session[:email], token: Devise.friendly_token)
+    @user = User.find_by(id: session['devise.user_id'])
+    @auth = Authorization.find_by(uid: session['device.auth_uid'], provider: session['devise.auth_provider'])
+    Omnitoken.create!(user: @user, authorization: @auth, email: params[:email], token: Devise.friendly_token)
   end
 
   def verify_email

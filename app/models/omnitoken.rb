@@ -11,15 +11,14 @@ class Omnitoken < ActiveRecord::Base
   end
 
   def verify_token(token, user)
-    Omnitoken.transaction do
-      if user
-        token.authorization.update!(user: user)
-        tokenuser = token.user
-      else
-        token.user.update!(email: token.email)
-      end
-      token.destroy!
-      tokenuser.destroy! if tokenuser
+    if user
+      token.authorization.update!(user: user)
+      tokenuser = token.user
+    else
+      token.user.update!(email: token.email)
     end
+
+    token.destroy!
+    tokenuser.destroy! if tokenuser
   end
 end
