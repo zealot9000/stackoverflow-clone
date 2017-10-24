@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
 root to: "questions#index"
-  devise_for :users
+  devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
 
   resources :questions do
     resources :answers, shallow: true do
@@ -16,4 +16,7 @@ root to: "questions#index"
   resources :comments, only: [:create]
 
   mount ActionCable.server => '/cable'
+
+  match "/register_email" => "omnitokens#register_email", :via => :post
+  match "/verify_email" => "omnitokens#verify_email", :via => :get
 end
