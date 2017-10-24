@@ -10,15 +10,17 @@ class Omnitoken < ActiveRecord::Base
     OmnitokenMailer.confirmation_email(self).deliver_now
   end
 
-  def verify_token(token, user)
-    if user
-      token.authorization.update!(user: user)
-      tokenuser = token.user
-    else
-      token.user.update!(email: token.email)
-    end
+  def verify_token(user)
+    Omnitoken.transaction do
+      if user
+        self.authorization.update!(user: user)
+        tokenuser = self.user
+      else
+        self.user.update!(email: token.email)
+      end
 
-    token.destroy!
-    tokenuser.destroy! if tokenuser
+      self.destroy!
+      tokenuser.destroy! if tokenuser
+    end
   end
 end

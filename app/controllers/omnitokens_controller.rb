@@ -10,7 +10,7 @@ class OmnitokensController < ApplicationController
     token = Omnitoken.find_by(token: params[:token])
     user = User.find_by(email: token.email)
 
-    verify_token(token, user)
+    token.verify_token(user)
 
     flash[:notice] = 'Your account updated.'
     redirect_to root_path
