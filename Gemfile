@@ -32,6 +32,7 @@ gem 'omniauth'
 gem 'omniauth-facebook', '~> 4.0.0'
 gem 'omniauth-twitter'
 gem 'dotenv-rails'
+gem 'cancancan'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

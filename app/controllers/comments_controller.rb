@@ -5,6 +5,8 @@ class CommentsController < ApplicationController
 
   respond_to :json
 
+  authorize_resource
+
   def create
     return render_error unless Comment.types.include?(params[:comment][:commentable_type])
     @comment = commentable.comments.build(comment_params)

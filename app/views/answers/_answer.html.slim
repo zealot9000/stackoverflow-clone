@@ -2,7 +2,7 @@ div class="answer-#{answer.id}"
   - if answer.best?
     b Best answer
     .best-answer
-  - elsif user_signed_in? && current_user.author?(answer.question) && answer.persisted?
+  - if can?(:mark_best, answer)
     = link_to 'Mark best', mark_best_answer_path(answer), method: :patch, remote: true
 
   = render 'questions/comments', entity: answer
@@ -17,9 +17,10 @@ div class="answer-#{answer.id}"
   - if answer.persisted? && answer.attachments.present?
     = render 'attachments/attachments', entity: answer
 
-  - if current_user && current_user.author?(answer)
+  - if can?(:destroy, answer)
     p
       = link_to 'Delete answer', answer, method: :delete, remote: true
+  - if can?(:update, answer)
     p
       = link_to 'Edit answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
 
