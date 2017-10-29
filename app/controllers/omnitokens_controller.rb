@@ -1,5 +1,7 @@
 class OmnitokensController < ApplicationController
 
+  skip_authorization_check
+
   def register_email
     @user = User.find_by(id: session['devise.user_id'])
     @auth = Authorization.find_by(uid: session['device.auth_uid'], provider: session['devise.auth_provider'])

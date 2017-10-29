@@ -7,6 +7,8 @@ class QuestionsController < ApplicationController
 
   respond_to :html
 
+  authorize_resource
+
   def index
     respond_with(@questions = Question.all)
   end
@@ -30,16 +32,12 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    @question.update(question_params) if current_user.author?(@question)
+    @question.update(question_params)
   end
 
   def destroy
-    if current_user.author?(@question)
-      respond_with(@question.destroy)
-    else
-      flash[:alert] = 'No rights to delete'
-      render :show
-    end
+    @question.destroy
+    respond_with(@question)
   end
 
   private

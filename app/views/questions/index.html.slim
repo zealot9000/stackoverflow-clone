@@ -1,5 +1,5 @@
 .questions
-  p
+  - if can?(:create, Question)
     = link_to 'Ask question', new_question_path
 
   h1 questions:

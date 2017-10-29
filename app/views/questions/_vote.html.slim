@@ -1,6 +1,6 @@
 b.rating= entity.rating
 | &nbsp
-- if user_signed_in? && ! current_user.author?(entity)
+- if can?(:create, Vote)
   div class= delete_vote_class(entity)
     = link_to 'Delete vote', delete_vote_path(entity),
             method: :delete, remote: true, data: { type: :json }

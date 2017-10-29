@@ -6,7 +6,7 @@
    div class="answer-votes-#{answer.id}"
     = render 'questions/vote', entity: answer
 
-- if user_signed_in?
+- if can?(:create, Answer)
   = form_for [@question, @answer], remote: true do |f|
     = render 'common/errors', resource: @answer
     .answer-errors

@@ -7,21 +7,23 @@ class AnswersController < ApplicationController
 
   respond_to :js
 
+  authorize_resource
+
   def create
     respond_with(@answer = @question.answers.create(answer_params))
   end
 
   def destroy
-    @answer.destroy if current_user.author?(@answer)
+    @answer.destroy
   end
 
   def update
-    @answer.update(answer_params) if current_user.author?(@answer)
+    @answer.update(answer_params)
     respond_with(@answer)
   end
 
   def mark_best
-    @answer.mark_best if current_user.author?(@answer.question)
+    @answer.mark_best
   end
 
   private

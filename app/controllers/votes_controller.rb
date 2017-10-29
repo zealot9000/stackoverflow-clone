@@ -3,6 +3,8 @@ class VotesController < ApplicationController
 
   respond_to :json
 
+  authorize_resource
+
   def create
     return render_error unless Vote.types.include?(params[:votable_type])
     @vote = votable.votes.build(vote_params)
