@@ -34,5 +34,7 @@ class Ability
     can :create, Vote do |vote|
       vote.votable.user != user
     end
+
+    can :me, User
   end
 end
