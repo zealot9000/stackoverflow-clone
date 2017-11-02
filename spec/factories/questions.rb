@@ -1,12 +1,16 @@
 FactoryGirl.define do
   factory :question do
-    title "MyString"
-    body "MyText"
+    title { Faker::Lorem.characters(30) }
+    body { Faker::Lorem.characters(50) }
     user
-  end
 
-  factory :invalid_question, class: "Question" do
-    title nil
-    body nil
+    trait :invalid do
+      title nil
+      body nil
+    end
+
+    trait :with_answers do
+      answers { [create(:answer), create(:answer)] }
+    end
   end
 end

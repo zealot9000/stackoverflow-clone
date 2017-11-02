@@ -34,6 +34,9 @@ gem 'omniauth-twitter'
 gem 'dotenv-rails'
 gem 'cancancan'
 gem 'doorkeeper'
+gem 'active_model_serializers', '~> 0.9.3'
+gem 'oj'
+gem 'oj_mimic_json'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -63,6 +66,7 @@ end
 group :test do
   gem 'shoulda-matchers'
   gem 'json_spec'
+  gem 'json_matchers'
 end
 
 group :development do

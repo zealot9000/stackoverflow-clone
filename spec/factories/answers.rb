@@ -1,15 +1,15 @@
 FactoryGirl.define do
-  sequence :body do |n|
-    "Answer #{n} text"
-  end
-
   factory :answer do
-    body
-    question nil
+    body { Faker::Lorem.characters(50) }
+    question
     user
-  end
 
-  factory :invalid_answer, class: 'Answer' do
-    body nil
+    trait :invalid_body do
+      body nil
+    end
+
+    trait :question_nil do
+      question nil
+    end
   end
 end
