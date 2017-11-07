@@ -1,4 +1,9 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
+  authenticate :user, lambda { |u| user.admin? } do
+    mount Sidekiq::Web => '/sidekiq'
+  end
 
   use_doorkeeper
 
@@ -12,6 +17,7 @@ Rails.application.routes.draw do
         patch :mark_best
       end
     end
+    resources :subscriptions, only: [:create, :destroy], shallow: true
   end
 
   resources :attachments, only: [:destroy]

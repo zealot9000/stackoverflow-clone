@@ -7,6 +7,7 @@ RSpec.describe User, type: :model do
   it { should have_many(:answers) }
   it { should have_many(:votes) }
   it { should have_many(:authorizations) }
+  it { should have_many(:subscriptions).dependent(:destroy) }
 
   describe 'methods' do
     let!(:user) { create(:user) }
@@ -230,6 +231,15 @@ RSpec.describe User, type: :model do
       it 'return false if user has not verify token to update account' do
         expect(user.has_token?(authorization)).to eq false
       end
+    end
+  end
+
+  describe '.send_daily_digest' do
+    let(:users) { create_list(:user, 2) }
+
+    it 'should send daily digest to all users' do
+      users.each { |user| expect(DailyMailer).to receive(:digest).with(user).and_call_original }
+      User.send_daily_digest
     end
   end
 end

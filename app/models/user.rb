@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   has_many :answers, dependent: :destroy
   has_many :votes
   has_many :authorizations
+  has_many :subscriptions, dependent: :destroy
 
   def author?(entity)
     id == entity.user_id
@@ -50,5 +51,11 @@ class User < ActiveRecord::Base
     user.authorizations.create(provider: auth.provider, uid: auth.uid)
 
     user
+  end
+
+  def self.send_daily_digest
+    all.each do |user|
+      DailyMailer.digest(user).deliver
+    end
   end
 end
