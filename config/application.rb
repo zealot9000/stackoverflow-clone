@@ -37,5 +37,8 @@ module StackoverflowProject
                       controller_spec: true
       g.fixture_replacement :factory_girl, dir: 'spec/factories'
     end
+
+    config.autoload_paths += %W(#{config.root}/lib)
+    config.active_job.queue_adapter = :sidekiq
   end
 end

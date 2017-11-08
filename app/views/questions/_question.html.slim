@@ -2,6 +2,8 @@ h1
   = question.title
 p
   = question.body
+p.subscription
+  = render 'subscriptions/subscription', question: question
 
 div class="question-votes-#{question.id}"
   = render 'questions/vote', entity: question

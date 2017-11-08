@@ -37,6 +37,9 @@ gem 'doorkeeper'
 gem 'active_model_serializers', '~> 0.9.3'
 gem 'oj'
 gem 'oj_mimic_json'
+gem 'whenever', require: nil
+gem 'sidekiq'
+gem 'sinatra', '>= 1.3.0', require: nil
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -67,6 +70,7 @@ group :test do
   gem 'shoulda-matchers'
   gem 'json_spec'
   gem 'json_matchers'
+  gem 'rails-controller-testing'
 end
 
 group :development do
