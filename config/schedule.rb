@@ -17,4 +17,6 @@ every 1.days do
   runner "DailyDigestJob.perform_now"
 end
 
-# Learn more: http://github.com/javan/whenever
+every 60.minutes do
+  rake 'ts:index'
+end

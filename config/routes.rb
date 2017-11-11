@@ -1,7 +1,7 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
-  authenticate :user, lambda { |u| user.admin? } do
+  authenticate :user, ->(user) { user.admin? } do
     mount Sidekiq::Web => '/sidekiq'
   end
 
@@ -28,6 +28,8 @@ Rails.application.routes.draw do
 
   match "/register_email" => "omnitokens#register_email", :via => :post
   match "/verify_email" => "omnitokens#verify_email", :via => :get
+
+  resource :search, only: [:show]
 
   namespace :api do
     namespace :v1 do
