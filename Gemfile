@@ -40,6 +40,10 @@ gem 'oj_mimic_json'
 gem 'whenever', require: nil
 gem 'sidekiq'
 gem 'sinatra', '>= 1.3.0', require: nil
+gem 'mysql2'
+gem 'thinking-sphinx'
+gem 'sprockets', '~> 3.0'
+gem 'will_paginate'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
