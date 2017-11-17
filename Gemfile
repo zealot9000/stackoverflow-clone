@@ -45,6 +45,8 @@ gem 'mysql2'
 gem 'thinking-sphinx'
 gem 'sprockets', '~> 3.0'
 gem 'will_paginate'
+gem 'remotipart'
+gem 'carrierwave'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -64,9 +66,7 @@ group :development, :test do
   gem 'capybara-email'
   gem 'database_cleaner'
   gem 'launchy'
-  gem 'carrierwave'
   gem 'cocoon'
-  gem 'remotipart'
   gem 'faker'
   gem 'letter_opener'
 end
