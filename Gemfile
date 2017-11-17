@@ -32,6 +32,7 @@ gem 'omniauth'
 gem 'omniauth-facebook', '~> 4.0.0'
 gem 'omniauth-twitter'
 gem 'dotenv-rails'
+gem 'dotenv-deployment', require: 'dotenv/deployment'
 gem 'cancancan'
 gem 'doorkeeper'
 gem 'active_model_serializers', '~> 0.9.3'
@@ -70,6 +71,7 @@ group :development, :test do
   gem 'letter_opener'
 end
 
+
 group :test do
   gem 'shoulda-matchers'
   gem 'json_spec'
@@ -81,6 +83,10 @@ group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
   gem 'pry-rails'
+  gem 'capistrano', require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-rvm', require: false
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   # gem 'spring'
