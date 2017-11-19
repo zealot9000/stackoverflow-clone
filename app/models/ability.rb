@@ -28,7 +28,7 @@ class Ability
     can :destroy, [Question, Answer, Attachment, Subscription], user: user
 
     can :mark_best, Answer do |answer|
-      answer.question.user == user && answer.question.best_answer != answer
+      answer.question.user == user #&& answer.question.best_answer != answer
     end
 
     can :create, Vote do |vote|
