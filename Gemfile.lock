@@ -411,6 +411,7 @@ DEPENDENCIES
   puma
   rails (~> 5.0.1)
   rails-controller-testing
+  redis
   remotipart
   responders (~> 2.0)
   rspec-rails
