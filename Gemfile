@@ -42,7 +42,7 @@ gem 'whenever', require: nil
 gem 'sidekiq'
 gem 'sinatra', '>= 1.3.0', require: nil
 gem 'mysql2'
-gem 'thinking-sphinx'
+gem 'thinking-sphinx', '3.3.0'
 gem 'sprockets', '~> 3.0'
 gem 'will_paginate'
 gem 'remotipart'
