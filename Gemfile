@@ -48,6 +48,7 @@ gem 'will_paginate'
 gem 'remotipart'
 gem 'carrierwave'
 gem 'cocoon'
+gem 'redis'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

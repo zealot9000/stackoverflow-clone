@@ -22,6 +22,7 @@ role :web, %w{deployer@85.143.174.37}
 role :db,  %w{deployer@85.143.174.37}
 
 set :rails_env, :production
+set :stage, :production
 
 # Custom SSH Options
 # ==================
