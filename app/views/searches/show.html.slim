@@ -4,7 +4,7 @@ h1 Search:
   = text_field_tag :text, params[:text]
   = label_tag :scopes, 'Scopes:'
   - Search.types.each_with_index do |type, index|
-    = check_box_tag 'scopes[]', type, params[:scopes].include?(type), id: "scope_#{index}"
+    = check_box_tag 'scopes[]', type
     = label_tag "scope_#{index}", type.capitalize
   = submit_tag 'Search'
 .results
