@@ -1,4 +1,5 @@
-b.rating= entity.rating
+- cache ['rating', entity] do
+  b.rating= entity.rating
 | &nbsp
 - if can?(:create, Vote)
   div class= delete_vote_class(entity)

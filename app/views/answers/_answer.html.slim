@@ -1,14 +1,15 @@
 div class="answer-#{answer.id}"
-  - if answer.best?
-    b Best answer
-    .best-answer
+  - cache ['best_answer', question, answer]
+    - if answer.best?
+      b Best answer
+      .best-answer
   - if can?(:mark_best, answer)
-    / = link_to 'Mark best', mark_best_answer_path(answer), method: :patch, remote: true
+     = link_to 'Mark best', mark_best_answer_path(answer), method: :patch, remote: true
 
   = render 'questions/comments', entity: answer
-
-  p
-    = answer.body
+  - cache answer do
+    p
+      = answer.body
 
 - unless answer.id.nil?
   div class="answer-votes-#{answer.id}"

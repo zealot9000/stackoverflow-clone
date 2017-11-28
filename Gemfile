@@ -50,6 +50,7 @@ gem 'carrierwave'
 gem 'cocoon'
 gem 'redis'
 gem 'unicorn'
+gem 'redis-rails'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
