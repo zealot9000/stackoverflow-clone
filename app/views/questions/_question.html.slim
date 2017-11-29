@@ -1,7 +1,8 @@
-h1
-  = question.title
-p
-  = question.body
+- cache question do
+  h1
+    = question.title
+  p
+    = question.body
 p.subscription
   = render 'subscriptions/subscription', question: question
 

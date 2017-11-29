@@ -4,7 +4,8 @@
       ul
         - entity.attachments.each do |a|
           li class="attachment-#{a.id}"
-            = link_to a.file.identifier, a.file.url
+            - cache [a] do
+              = link_to a.file.identifier, a.file.url
             - if can?(:destroy, a.attachable)
-                | &nbsp
-          = link_to 'Delete file', a, method: :delete, remote: true
+              | &nbsp
+              = link_to 'Delete file', a, method: :delete, remote: true
